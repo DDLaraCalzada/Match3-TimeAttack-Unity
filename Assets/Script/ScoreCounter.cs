@@ -1,104 +1,121 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public sealed class ScoreCounter : MonoBehaviour
 {
-    [SerializeField] private Button[] btnReset;
-    [SerializeField] private TMP_InputField playerNameInput;
+    [Header("Botones")]
+    [SerializeField] private Button[] btnResetScore;        // Solo resetea el puntaje actual
+    //[SerializeField] private Button btnClearLeaderboard;     // Limpia la tabla (opcional)
     [SerializeField] private Button btnSave;
-    [SerializeField] private TMP_Text playerListText;
+
+    [Header("UI Inputs/Outputs")]
+    [SerializeField] private TMP_InputField playerNameInput;
+    [SerializeField] private TMP_Text playerListText;        // Texto del leaderboard (NO en scoreText[])
+    [SerializeField] private TextMeshProUGUI[] scoreText;    // Labels que muestran el puntaje actual
+
     public static ScoreCounter Instance { get; private set; }
 
-    [SerializeField] private TextMeshProUGUI[] scoreText;
-
     private int _score;
-    private List<PlayerScore> playerScores = new List<PlayerScore>();
+    private readonly List<PlayerScore> playerScores = new();
 
-    // Estructura de datos para almacenar el nombre del jugador y su puntaje
-    private struct PlayerScore : IComparable<PlayerScore>
+    private readonly struct PlayerScore : IComparable<PlayerScore>
     {
-        public string playerName;
-        public int score;
+        public readonly string playerName;
+        public readonly int score;
 
         public PlayerScore(string name, int score)
         {
-            this.playerName = name;
+            playerName = name;
             this.score = score;
         }
 
-        // Implementación de IComparable para comparar PlayerScores por puntaje
-        public int CompareTo(PlayerScore other)
-        {
-            return other.score.CompareTo(score);
-        }
+        public int CompareTo(PlayerScore other) => other.score.CompareTo(score);
     }
+
     public int Score
     {
         get => _score;
-
         set
         {
             if (_score == value) return;
             _score = value;
 
-            // Actualizar cada objeto TextMeshProUGUI en el array
+            // Actualiza SOLO los labels de puntaje actual
             for (int i = 0; i < scoreText.Length; i++)
-            {
                 scoreText[i].SetText($"Puntaje = {_score}");
-            }
         }
     }
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning("Ya existe un ScoreCounter en escena. Asegúrate de tener SOLO UNO.");
+        }
         Instance = this;
     }
 
     private void Start()
     {
-        // Agregar un listener de eventos a cada botón de reinicio
-        foreach (Button button in btnReset)
+        // Enlaza botones
+        foreach (Button button in btnResetScore)
+            button.onClick.AddListener(ResetScoreOnly);
+
+        //if (btnClearLeaderboard != null)
+        //    btnClearLeaderboard.onClick.AddListener(ClearLeaderboard);
+
+        btnSave.onClick.AddListener(GuardarNombreJugador);
+
+        // Verificación defensiva: que el leaderboard no esté en scoreText[]
+        foreach (var t in scoreText)
         {
-            button.onClick.AddListener(ResetScore);
+            if (t == playerListText)
+                Debug.LogError("playerListText NO debe estar en scoreText[]. Corrígelo en el Inspector.");
         }
 
-        // Agregar un listener de eventos para el botón de guardar
-        btnSave.onClick.AddListener(GuardarNombreJugador);
-    }
-
-    // Método para reiniciar el puntaje a cero
-    private void ResetScore()
-    {
+        // Inicializa UI
         Score = 0;
+        ActualizarListaJugadores();
     }
 
-    // Método para guardar el nombre del jugador y su puntaje
+    // Resetea SOLO el puntaje de la partida actual
+    private void ResetScoreOnly() => Score = 0;
+
+    // Limpia explícitamente el leaderboard (si quieres esa opción)
+    private void ClearLeaderboard()
+    {
+        playerScores.Clear();
+        ActualizarListaJugadores();
+    }
+
     private void GuardarNombreJugador()
     {
         string playerName = playerNameInput.text;
-        if (!string.IsNullOrEmpty(playerName))
-        {
-            // Agregar el nombre del jugador y su puntaje a la lista
-            playerScores.Add(new PlayerScore(playerName, _score));
 
-            // Ordenar la lista por puntaje (mayor a menor)
-            playerScores.Sort();
-            ActualizarListaJugadores();
-            playerNameInput.text = ""; // Limpiar el campo de entrada después de guardar el nombre
-        }
+        if (string.IsNullOrWhiteSpace(playerName))
+            return;
+
+        // Guarda el puntaje ACTUAL (no lo modifica)
+        playerScores.Add(new PlayerScore(playerName.Trim(), _score));
+
+        // Ordena y refresca
+        playerScores.Sort();
+        ActualizarListaJugadores();
+
+        // Limpia input (no el score)
+        playerNameInput.text = "";
     }
 
-    // Método para actualizar la lista de jugadores en el texto
     private void ActualizarListaJugadores()
     {
         playerListText.text = "Top 5 Jugadores:\n";
-        for (int i = 0; i < Mathf.Min(playerScores.Count, 5); i++)
-        {
-            playerListText.text += $"{i + 1}. {playerScores[i].playerName} - Puntaje: {playerScores[i].score}\n";
-        }
-    }
+        int rank = 1;
 
+        foreach (var ps in playerScores.Take(5))
+            playerListText.text += $"{rank++}. {ps.playerName} - Puntaje: {ps.score}\n";
+    }
 }

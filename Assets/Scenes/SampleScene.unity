@@ -869,9 +869,8 @@ GameObject:
   - component: {fileID: 116730810}
   - component: {fileID: 116730813}
   - component: {fileID: 116730812}
-  - component: {fileID: 116730811}
   m_Layer: 5
-  m_Name: Score
+  m_Name: TxtScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -896,26 +895,6 @@ RectTransform:
   m_AnchoredPosition: {x: -174, y: -109.868904}
   m_SizeDelta: {x: 200, y: 72.8918}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &116730811
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 116730809}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bef35656a802af04c8a0b2bef0096cfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  btnReset:
-  - {fileID: 1355544697}
-  - {fileID: 1237544678}
-  playerNameInput: {fileID: 163025746}
-  btnSave: {fileID: 221673484}
-  playerListText: {fileID: 912841052}
-  scoreText:
-  - {fileID: 116730812}
 --- !u!114 &116730812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1026,7 +1005,7 @@ GameObject:
   - component: {fileID: 131959013}
   - component: {fileID: 131959012}
   m_Layer: 5
-  m_Name: Score
+  m_Name: ScriptScore
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1063,12 +1042,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bef35656a802af04c8a0b2bef0096cfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btnReset:
-  - {fileID: 1355544697}
-  - {fileID: 1237544678}
-  - {fileID: 426060121}
-  playerNameInput: {fileID: 163025746}
+  btnResetScore: []
   btnSave: {fileID: 221673484}
+  playerNameInput: {fileID: 163025746}
   playerListText: {fileID: 912841052}
   scoreText:
   - {fileID: 131959013}
