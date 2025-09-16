@@ -1,0 +1,148 @@
+# -----------------------------
+# Unity
+# -----------------------------
+# Carpetas generadas
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+SysInfo.txt
+
+# Cache de paquetes / Asset Store
+[Aa]ssets/AssetStoreTools*
+[Aa]sset[Ss]tore/
+# (NO ignores los .meta — Unity los necesita)
+
+# Colab y Version Control antiguos
+[Aa]ssets/UnityCollaborate*/
+[Aa]ssets/.Trash*/
+
+# Lightmaps / GI (generados)
+[Aa]ssets/**/[Ll]ightmap*/
+[Aa]ssets/**/[Rr]eflectionProbe-*
+[Aa]ssets/**/LightmapSnapshot*
+
+# Addressables (datos de build)
+[Aa]ssets/**/[Aa]ddressable[Aa]ssets[Dd]ata/*/Android/*
+[Aa]ssets/**/[Aa]ddressable[Aa]ssets[Dd]ata/*/iOS/*
+[Aa]ssets/**/[Aa]ddressable[Aa]ssets[Dd]ata/*/Windows/*
+[Aa]ssets/**/[Aa]ddressable[Aa]ssets[Dd]ata/*/Standalone*
+
+# Crash/Profiler
+[Aa]ssets/**/CrashReports/
+[Aa]ssets/**/*.psess
+[Aa]ssets/**/*.pidb
+
+# Shader cache
+[Aa]ssets/**/ShaderCache/
+[Aa]ssets/**/ShaderIncludeCache/
+[Aa]ssets/**/Compiled-*.shader
+
+# -----------------------------
+# Sistema operativo
+# -----------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# -----------------------------
+# IDEs
+# -----------------------------
+# Visual Studio / MSBuild
+.vs/
+*.csproj
+*.vbproj
+*.pidb
+*.suo
+*.sln.docstates
+*.user
+*.userosscache
+*.userprefs
+*.svd
+
+# Paquetes NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+!**/packages/repositories.config
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# -----------------------------
+# Plataformas móviles / exportaciones
+# -----------------------------
+# Android (Gradle/Export)
+.gradle/
+**/gradle/
+**/gradlew
+**/gradlew.bat
+**/gradle-wrapper.jar
+**/local.properties
+# iOS / Xcode
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+*.pbxuser
+project.xcworkspace/
+xcuserdata/
+DerivedData/
+
+# -----------------------------
+# Text/Serialization
+# -----------------------------
+# Si usas Serialization = Force Text, mantener YAMLs.
+# ¡No ignores *.meta!
+# Ignora temporales
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# -----------------------------
+# Opcional: Git LFS (descomenta si usas LFS)
+# -----------------------------
+# Filtrado típico de binarios pesados:
+# *.png
+# *.jpg
+# *.jpeg
+# *.psd
+# *.tga
+# *.mp4
+# *.mov
+# *.wav
+# *.ogg
+# *.fbx
+# *.obj
+# *.anim
+# *.controller
+# *.ttf
+# *.otf
+# *.a
+# *.so
+# *.dll
+# *.bundle
