@@ -34,10 +34,10 @@ A vertical match-3 puzzle game built with Unity. Score as many points as possibl
 ## Gameplay
 
 ### Eliminación de combinaciones
-![](docs/gifs/playing 1.1.gif)
+![](docs/gifs/playing_1.1.gif)
 
 ### Pantalla de puntajes y ranking
-![](docs/gifs/playing 2.gif)
+![](docs/gifs/playing_2.gif)
 
 ## Cómo jugar
 
