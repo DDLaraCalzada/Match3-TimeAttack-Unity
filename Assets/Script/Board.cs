@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -92,13 +92,45 @@ public sealed class Board : MonoBehaviour
         }
     }
 
+
+    //Restringe el swap a fichas adyacentes (Manhattan = 1)
+    private static bool AreAdjacent(Tile a, Tile b)
+    {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y) == 1;
+    }
+
+
+    //Evita que entren más clics mientras resuelves el movimiento, y congela qué dos fichas vas a usar
+    private bool _inputLocked;
+
     public async void Select(Tile tile)
     {
-        if (!_selection.Contains(tile)) _selection.Add(tile);
+        if (_inputLocked) return;
 
+        // Evita agregar dos veces la misma casilla
+        if (_selection.Count == 1 && _selection[0] == tile)
+        {
+            _selection.Clear();
+            return;
+        }
+
+        if (!_selection.Contains(tile)) _selection.Add(tile);
         if (_selection.Count < 2) return;
 
-        await Swap(_selection[0], _selection[1]);
+        var a = _selection[0];
+        var b = _selection[1];
+
+        // Si no son adyacentes, cancela
+        if (!AreAdjacent(a, b))
+        {
+            _selection.Clear();
+            return;
+        }
+
+        _inputLocked = true;   // 🔒 bloquea input
+        _selection.Clear();    // ya guardamos a/b
+
+        await Swap(a, b);
 
         if (CanPop())
         {
@@ -106,11 +138,33 @@ public sealed class Board : MonoBehaviour
         }
         else
         {
-            await Swap(_selection[0], _selection[1]);
+            await Swap(a, b); // deshacer
         }
 
-        _selection.Clear();
+        _inputLocked = false;  // 🔓 libera input
     }
+
+
+
+    //public async void Select(Tile tile)
+    //{
+    //    if (!_selection.Contains(tile)) _selection.Add(tile);
+
+    //    if (_selection.Count < 2) return;
+
+    //    await Swap(_selection[0], _selection[1]);
+
+    //    if (CanPop())
+    //    {
+    //        Pop();
+    //    }
+    //    else
+    //    {
+    //        await Swap(_selection[0], _selection[1]);
+    //    }
+
+    //    _selection.Clear();
+    //}
 
 
     private bool CanPop()
