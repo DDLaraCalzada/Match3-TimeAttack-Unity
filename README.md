@@ -48,7 +48,7 @@ A vertical match-3 puzzle game built with Unity. Score as many points as possibl
 
 ## Tecnologías
 
-- Unity (versión recomendada XX.X)  
+- Unity (versión recomendada 2022.3.62f1)  
 - C#  
 - DOTween para animaciones  
 
